@@ -6,7 +6,7 @@ const pageMaxNum = 10;
 
 //Display 10 students to UI
 function showPage (list, page) {
-   let start = pageMaxNum - pageMaxNum; // start = 0
+   let start = (page * pageMaxNum) - pageMaxNum; // start = 0
    let end = page * pageMaxNum; // end = 10
 
    for (let i = 0; i < list.length; i++) {
