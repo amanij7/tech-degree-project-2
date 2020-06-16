@@ -1,68 +1,62 @@
-/******************************************
-Treehouse Techdegree:
-FSJS project 2 - List Filter and Pagination
-******************************************/
-
-
-   
-// Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
-
-
-/*** 
-   Add your global variables that store the DOM elements you will 
-   need to reference and/or manipulate. 
-   
-   But be mindful of which variables should be global and which 
-   should be locally scoped to one of the two main functions you're 
-   going to create. A good general rule of thumb is if the variable 
-   will only be used inside of a function, then it can be locally 
-   scoped to that function. // DONE!
-***/
-
-const listItem =  document.querySelector('.student-item');
+//Global variables
+const studentList = document.querySelectorAll('.student-item');
 const page = document.querySelector('.page');
 const pageMaxNum = 10;
 
 
-/*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
+//Display 10 students to UI
+function showPage (list, page) {
+   let start = pageMaxNum - pageMaxNum; // start = 0
+   let end = page * pageMaxNum; // end = 10
 
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
-***/
-
-function showPage (list) {
-   let arrRes = 0;
-   for (let i = 0; i < listItem.length; i++) {
-      if (listItem[i] >= arrRes && listItem[i] < pageMaxNum) {
-         arrRes += listItem[i];
-         listItem.getElementsByClassName.display = '';
+   for (let i = 0; i < list.length; i++) {
+      if (i >= start && i < end) { // greater or equal to 0 && less than 10
+         list[i].style.display = ''; 
       } else {
-         listItem.style.display = 'none';
+         list[i].style.display = 'none';
       }
    }
 };
-console.log(showPage(listItem));
+showPage(studentList, 1);
 
 
 
+function appendPageLinks(list) {
+   //create a new div
+   let pageNumber = Math.ceil( list.length /10 );
+   let div = document.createElement('div');
+   div.className = 'pagination';
+   page.appendChild(div);
+   let ul = document.createElement('ul');
 
 
-/*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
-***/
+// create a new li and anchor element with each loop
+   for(i = 0; i < pageNumber; i++ ) {
+      let li = document.createElement('li');
+      let a = document.createElement('a');
+      div.appendChild(ul);
+      ul.appendChild(li);
+      li.appendChild(a);
+      a.href = '#'; //making sure each is linked
+      a.textContent = i + 1;
 
 
+      // ** I learned this bit of code with the help of Github **
+      if (i === 0) {
+         a.className = 'active';
+      };
+      //creating a click event and adding the active class to the targeted anchor elements
+      a.addEventListener ('click', (e) => {
+         let A = document.querySelectorAll('a');
+         for(let i = 0; i < A.length; i++) {
+            A[i].className = '';
+         };
 
+         e.target.className = 'active';
+         showPage(list, e.target.textContent);
+      });
+   };
+};
 
+appendPageLinks(studentList);
 
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
